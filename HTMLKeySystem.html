@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Key Generator</title>
+    <script>
+        // Check if a key has already been generated today
+        window.onload = function() {
+            if (localStorage.getItem("key") !== null) {
+                // A key has already been generated today, so display it
+                document.getElementById("key").innerHTML = localStorage.getItem("key");
+            } else {
+                // No key has been generated today, so generate a new one
+                generateKey();
+            }
+        }
+
+        function generateKey() {
+            // Generate a random 16-character key
+            var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var key = "";
+            for (var i = 0; i < 16; i++) {
+                key += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+
+            // Write the new key to the page
+            document.getElementById("key").innerHTML = key;
+
+            // Store the key in local storage
+            localStorage.setItem("key", key);
+        }
+
+        // Generate a new key every 24 hours
+        setInterval(function() {
+            localStorage.removeItem("key");
+            generateKey();
+        }, 24 * 60 * 60 * 1000);
+    </script>
+</head>
+<body>
+    <h1>HTML Key</h1>
+    <p>Your key for today is: <span id="key"></span></p>
+</body>
+</html>
